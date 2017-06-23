@@ -1,0 +1,63 @@
+<fieldset>
+<legend>Generating SSH key pairs locally</legend>
+
+<br>
+-- Windows --<br>
+<ol>
+<li>Download PuTTYgen (available <a href = "http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html">here</a>) and run the executable.</li><br>
+<li>Click on the <b>Generate</b> button and follow on-screen instructions.</li><br>
+<li>Create and confirm a <b>Key passphrase</b>.</li><br>
+<li>Save public and private keys. Saving the public key with the extension <b>.pub</b> can help to distinguish between the two keys.</li><br>
+<li> Upload the <b>public</b> key file.</li>
+</ol>
+
+<br>
+-- Linux/Mac --<br>
+<ol>
+<li>In a terminal, type the command <b>ssh-keygen -t rsa</b>, and press enter.</li>
+	<ul>      
+	<li>To save the key pair in a different directory or with a different name, add the <b>-f</b> flag followed by the directory and key pair name (e.g. ~/Desktop/key).</li>
+	</ul><br>
+
+<li> When asked to enter file in which to save the key, press enter without typing in a name.
+	<ul>
+	<li>If a file name is supplied, the key pair will be saved in the terminal's current directory with the supplied name.</li>
+	<li>By default, keys are saved in the <b>~/.ssh</b> directory with the names <b>id_rsa</b>, <b>id_rsa.pub</b>.</li>
+	</ul><br>
+
+<li>Enter a password for the key pair, and press enter. You will be asked to retype the password for confirmation.</li><br>
+
+<li>Upload the <b>public</b> key file (the one ending in <b>.pub</b>).</li>
+</ol>
+
+</fieldset>
+
+<br>
+
+<fieldset>
+<legend>Logging in with SSH</legend>
+
+<br>
+-- Windows --<br>
+<ol>
+<li>Download PuTTY (available <a href = "http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html">here</a>) and run the executable.</li><br>
+
+<li>In the Session tab, enter the <b>Host Name</b> and select SSH as the connection type.</li><br>
+<li>In the Auth tab (located in SSH), browse for and select your private key.</li><br>
+<li>Click Open and enter your login credentials.</li>
+</ol>
+
+<br>
+-- Linux/Mac --<br>
+<ol>
+<li>In a terminal, type the command <b>ssh</b> followed by the remote host name.
+	<ul>
+	<li>If your local machine account name is different from your login username, include the <b>-l</b> flag followed by your login username. This should go before the remote host name.</li>
+	<li>If the private key has a non-default name or directory, include the <b>-i</b> flag followed by the correct directory and name. This should go before the remote host name.</li>
+	<li>Your command might look like this: <b>ssh -l <i>userName</i> -i <i>pathToKey remoteHostName</i></b></li>
+	</ul><br>
+<li>Press enter, and type the password associated with the key pair.</li>
+</ol>
+
+
+</fieldset>

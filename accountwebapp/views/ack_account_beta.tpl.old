@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+	<link rel="stylesheet" type="text/css" href="{{ url('static', filename='csvCommon.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ url('static', filename='ack_account.css') }}" />
+</head>
+
+<body>
+
+	% DATE = 0
+	% EMAIL = 1
+	% REAL_GROUPS = 2
+	% PHONE = 3
+	% SPONSOR = 4
+	% SPONSOR_AFF = 5
+	% PROJECT = 6
+
+	<!-- number of group fields -->
+	% NUM_GROUP_FIELDS = 3
+
+	% totalList = usersList + ackList
+
+	<div class="container">
+
+		<div class="row">
+			<div class="col-md-12">
+				<form action="/ack_account" method="post" enctype="multipart/form-data">
+					<fieldset class="fieldset-auto-width">
+
+						<table class="table table-bordered">
+							<tr>
+								<th></th>
+								<th>Date</th>
+								<th>Email</th>
+								<th>Group 1</th>
+								<th>Group 2</th>
+								<th>Group 3</th>
+								<th>Phone</th>
+								<th>Sponsor</th>
+								<th>Sponsor Affiliation</th>
+								<th>Project Description</th>
+							</tr>
+
+							<!-- START: ROW LAYOUT -->
+							% for user in totalList:
+
+								<!-- splits groups into list -->
+								% curUserGroups = user[REAL_GROUPS].split(" ")
+								<!-- pads list with empty elements to match NUM_GROUP_FIELDS -->
+								% while len(curUserGroups) < NUM_GROUP_FIELDS:
+									% curUserGroups.append("")
+								% end
+
+								<!-- [ACK] -->
+								% if user in ackList:
+								<tr style="color:red">
+									<td>[ACK]
+										<!-- NOT ACKED radio buttons --> 
+								% else:
+								% radioName = "action" + user[EMAIL]
+								<tr>
+									<td>
+										ACK
+										<input type="radio" name = {{radioName}} value="ACK">
+										DENY
+										<input type="radio" name= {{radioName}} value="DENY">
+										<!-- end if -->
+										% end
+									</td>
+
+									<!-- DATE -->		 
+									<td>{{user[DATE]}}</td>
+									<!-- EMAIL --> 
+									<td>{{user[EMAIL]}}</td>
+
+									<!-- for each group FIELD (<select>, 0-2) -->
+									% for gNum in range(NUM_GROUP_FIELDS):
+										% GROUP_FOUND = False
+
+										<!-- name is id for select group: referenced by "G[0-2]email -->
+										% gFieldName = "G" + str(gNum) + user[EMAIL]
+										<td><select name = {{gFieldName}}>
+
+										<!-- for each group's display alias -->
+										% for displayGroup in groupsList:
+											<!-- if the display group matches the "real" group for this field... -->
+											% if groupsDict[displayGroup] == curUserGroups[gNum].strip():
+												<!-- ...then show that group as selected -->
+												<option value={{displayGroup}} selected>{{displayGroup}}</option>
+												% GROUP_FOUND = True
+											% else:
+												<!-- else add it to the list of groups -->
+												<option value={{displayGroup}}>{{displayGroup}}</option>
+											<!-- end if -->
+											% end
+										<!-- end for displayGroup --> 
+										% end
+
+										<!-- if the group hasn't been found, display: "--" -->                                                                                                    
+										% if GROUP_FOUND == False:                               
+											<option value=" -- " selected> -- </option>                                                                                                                           
+										% else:
+											<option value=" -- "> -- </option>
+										<!-- end if -->                                                                                                                                                   
+										% end          
+
+										</select></td>
+										% GROUP_FOUND = False
+									<!-- end for gNum (group field) -->
+									% end
+
+
+									<td>{{user[PHONE]}}</td>
+									<td>{{user[SPONSOR]}}</td>
+									<td>{{user[SPONSOR_AFF]}}</td>
+									<td>{{user[PROJECT]}}</td>
+								</tr>
+
+							<!-- end for user -->
+							% end
+
+						</table>
+
+						<br>
+						<input type = "submit" value = "Submit" id = "submit"/>
+
+					</fieldset>
+				</form>
+			</div>
+		</div>
+	</body>
+	</html>

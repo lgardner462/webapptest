@@ -1,0 +1,105 @@
+#!/bin/bash
+
+show_help () {
+    echo "-t to print to terminal (no email)"
+    echo "-m [email receiver]"
+    exit
+}
+
+text=0
+
+sendTo=""
+
+while getopts "h?tm:" opt; do
+    case "$opt" in
+    h|\?)
+        show_help
+        exit 0
+        ;;
+    t)  text=1
+        ;;
+    m)  sendTo=$OPTARG
+	;;
+    esac
+done
+
+
+if [ $text -eq 0 ]; then
+    TEMPFILE=$(mktemp)
+else
+    TEMPFILE=/dev/stdout
+fi
+
+
+USERS=$(ls -1 $(dirname $0)/newaccounts)
+cd $(dirname $0)/newaccounts
+
+if [[ `hostname` == *"eofe1"* ]];
+then
+	printf "%s " "To acknowledge accounts: https://eofe1.mit.edu/ack_account" >> ${TEMPFILE};
+
+elif [[ `hostname` == *"c3ddb"* ]];
+then
+	printf "%s " "To acknowledge accounts: https://c3ddb01.mit.edu/ack_account" >> ${TEMPFILE};
+fi
+
+printf "\n\n" >> ${TEMPFILE}
+
+printf "%s " "Acknowledged accounts will begin with [ACK]" >> ${TEMPFILE};
+
+printf "\n\n" >> ${TEMPFILE}
+
+for user in ${USERS}; do
+	email=${user}
+	cd ${user}
+	group=$(cat groups.txt)
+	phone=$(cat phone.txt)
+	sponsor=$(head -1 sponsor.txt)
+	sponsorAff=$(tail -1 sponsor.txt)
+	projectDescription="$(cat projectDescription.txt)"
+        date=$(stat groups.txt | grep Change | awk '{print $2}')
+
+	if [ -f ack ];
+	then
+		printf "[ACK] " >> ${TEMPFILE}
+	fi
+
+	printf "%s " ${email} >> ${TEMPFILE}
+	printf "\n" >> ${TEMPFILE}
+	
+	printf "%s " ${date} >> ${TEMPFILE}
+	printf "\n" >> ${TEMPFILE}
+	
+	printf "%s " ${group} >> ${TEMPFILE}
+	printf "\t" >> ${TEMPFILE}
+	printf "%s " ${phone} >> ${TEMPFILE}
+	printf "\n" >> ${TEMPFILE}
+	
+	printf "%s " ${sponsor} >> ${TEMPFILE}
+	printf "\t" >> ${TEMPFILE}
+	printf "%s " ${sponsorAff} >> ${TEMPFILE}
+	printf "\n" >> ${TEMPFILE}
+	
+	printf "%s " ${projectDescription} >> ${TEMPFILE}
+	printf "\n\n" >> ${TEMPFILE}
+
+	cd ..
+done
+
+printf "\n" >> ${TEMPFILE}
+
+
+#mail
+if [ $text -eq 0 ]; then
+    if [ -s ${TEMPFILE} ]; then 
+          $(which mail) -s "`basename $0` - `hostname` -  `date '+%Y-%m-%d'`" ${sendTo}  < ${TEMPFILE}
+    fi
+    rm -f ${TEMPFILE}
+fi
+
+
+
+
+
+
+

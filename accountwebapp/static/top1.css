@@ -1,0 +1,14 @@
+.nodes td {
+    padding: 10px;
+    background-color: #cccccc;
+}
+
+table tr:nth-child(even) td {
+    background-color: #dddddd;
+}
+
+.nodes h3 {
+    font-size: 15px;
+    font-weight: bold;
+}
+

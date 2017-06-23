@@ -1,0 +1,13 @@
+.container {
+    margin-top: 2em;
+}
+
+h2 {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+li {
+    font-size: 1.25em;
+    white-space: pre;
+}

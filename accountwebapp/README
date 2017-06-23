@@ -1,0 +1,18 @@
+#
+#
+#
+
+run like this...
+
+su -c ./webapp.py zamalchi
+
+need to add supervisor to keep it running
+
+added to /etc/httpd/conf.d/ssl.conf
+
+RewriteEngine On
+ProxyPreserveHost On
+ProxyRequests Off
+ProxyPass /create_account http://127.0.0.1:8081/create_account
+ProxyPassReverse /create_account http://127.0.0.1:8081/create_account
+

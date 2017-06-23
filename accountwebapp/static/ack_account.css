@@ -1,0 +1,39 @@
+table tr:nth-child(even) td {
+    background-color: #dddddd;
+}
+
+table tr:nth-child(odd) td {
+    background-color: #cccccc;
+}
+
+td , th{
+    border: 1px solid black;
+    padding: 1em;
+    white-space: nowrap;
+}
+
+th {
+    background-color: #cccccc;
+    font-weight: bold;
+    text-align: center;
+    font-size: 1.25em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+
+fieldset {
+    position: aboslute;
+    margin-top: 2em;
+}
+
+table {
+    margin: 2em;
+    clear: both;
+    position: relative;
+}
+
+input {
+    position: relative;
+    margin-left: 2em;
+    padding: 0.5em;
+}

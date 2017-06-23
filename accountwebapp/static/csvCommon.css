@@ -1,0 +1,33 @@
+body {
+    font-family: Droid Sans, Arial;
+    background: #aadfeb;
+}
+
+h1 {
+    text-align: center;
+}
+
+.navbar {
+    background-color: #dddddd;
+    border-color: #000000
+}
+
+.navbar ul {
+    text-align: center;
+}
+
+.navbar li {
+    display: inline-block;
+    font-size: 20px;
+    position: relative;
+}
+
+.footer {
+    margin: 30px;
+}
+
+div.threeColumn {
+    -webkit-column-count: 3; /* Chrome, Safari, Opera */
+    -moz-column-count: 3; /* Firefox */
+    column-count: 3;
+}

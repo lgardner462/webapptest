@@ -1,0 +1,28 @@
+body {
+    font-family: Droid Sans, Arial;
+    background: #aadfeb;
+    font-size: 1.75em;
+    padding: 2em;
+}
+
+div {
+
+    width: 35em;
+    clear: both;
+    margin-left: auto;
+    margin-righ: auto;
+    margin-top: 2em;
+    margin: 2em auto;
+    padding: 1.5em;
+    border: 1px solid;
+    background-color: #cccccc;
+} 
+
+input {
+    margin: 1em 0;
+}
+
+h2 {
+    text-align: center;
+    padding-bottom: 0.5em;
+}

@@ -1,0 +1,21 @@
+#!/bin/bash
+
+DEPLOYDIR=$(pwd)
+cd ../../sysadmin/zamalchi/webapp
+FOO=$(find . -type f \! -name \*~ \! -name groups.txt)
+for i in $FOO; do
+    M2=$(cat $i | md5sum)
+    if [ -f $DEPLOYDIR/$i ]; then 
+	M1=$(cat $DEPLOYDIR/$i | md5sum)
+	if [ "$M1" != "$M2" ]; then
+	    diff -u $i $DEPLOYDIR/$i
+	    echo "copy $i to $DEPLOYDIR/$i"
+	    cp -i $i $DEPLOYDIR/$i
+	else
+	    echo "OK $i"
+	fi
+    else
+	cp -i $i $DEPLOYDIR/$i
+    fi
+done
+
